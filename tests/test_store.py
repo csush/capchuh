@@ -7,7 +7,7 @@ class TestInMemoryStore:
         self.store = InMemoryStore()
 
     def _make_record(self, **kwargs) -> EmbeddingRecord:
-        defaults = {"id": "", "raw_input": "hello", "embedding": [0.1, 0.2]}
+        defaults = {"id": "", "raw_input": "hello", "embedding": [0.1, 0.2], "score": 0.22}
         defaults.update(kwargs)
         return EmbeddingRecord(**defaults)
 

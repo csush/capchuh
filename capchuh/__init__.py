@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import numpy as np
+
 from capchuh.embed import FastEmbedEmbedder
 from capchuh.ingest import TextIngestor
 from capchuh.store import InMemoryStore
@@ -20,11 +22,12 @@ _store = InMemoryStore()
 
 
 def analyze(text: str) -> TestResult:
-    """Full pipeline: ingest → embed → store → test."""
+    """Full pipeline: ingest → embed → score → store → test."""
     clean_text = _ingestor.ingest(text)
     embedding = _embedder.embed(clean_text)
-    record = EmbeddingRecord(id="", raw_input=clean_text, embedding=embedding)
+    score = float(np.linalg.norm(embedding))
+    record = EmbeddingRecord(id="", raw_input=clean_text, embedding=embedding, score=score)
     _store.save(record)
 
-    all_embeddings = [r.embedding for r in _store.list_all()]
-    return run_test(all_embeddings)
+    all_scores = [r.score for r in _store.list_all()]
+    return run_test(all_scores)

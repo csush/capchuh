@@ -10,6 +10,7 @@ class EmbeddingRecord:
     id: str
     raw_input: str
     embedding: list[float]
+    score: float
     created_at: datetime = field(default_factory=datetime.now)
 
 
